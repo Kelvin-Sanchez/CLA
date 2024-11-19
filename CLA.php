@@ -26,10 +26,10 @@ function distance($lat1, $lon1, $lat2, $lon2, $unit) {
 }
 // set_time_limit(0);
 ini_set('max_execution_time', 600); // 10 minutes
-$file = file('Costco NE to Import.csv');
-$file2 = file('2NEW_Geocoded USA Stores 2019-12C.csv');
+$file = file('Infile1.csv');
+$file2 = file('Infile2.csv');
 
-$outfile = fopen('Results-New Costco NE to Import.csv','w');
+$outfile = fopen('OutFile.csv','w');
 
 array_shift($file);
 array_shift($file2);
@@ -42,16 +42,16 @@ $outline = 0;
 $inline = 0;
 
 do {list($lat1,$lon1,$mat1,$cus1,$str1,$add1,$cit1,$sta1,$zip1,$phone1) = explode(',',array_shift($file));
-	echo "Outside: ".$outline."\n";
+	// echo "Outside: ".$outline."\n";
 	$outline = $outline + 1;
 foreach ($file2 as $data) {
-	echo "Inside: ".$inline."\n";
+	// echo "Inside: ".$inline."\n";
 	$inline = $inline + 1;
 	list($lat2,$lon2,$mat2,$cus2,$str2,$add2,$cit2,$sta2,$zip2,$phone2) = explode(',', $data);
 	$dis = distance($lat1, $lon1, $lat2, $lon2, "M");
 	
 	$line = array($cus1,$str1,$add1,$cit1,$sta1,$zip1,$phone1,"to",$cus2,$str2,$add2,$cit2,$sta2,$zip2,$phone2,$dis);
-	//echo $lat1." ".$lon1;	
+	// echo $lat1." ".$lon1;	
 	if ($dis <= 25 && $cus1!=NULL)
 	{ 
 		fputcsv($outfile, $line);}
